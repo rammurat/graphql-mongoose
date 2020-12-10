@@ -789,7 +789,7 @@ graphql-compose-connection@^6.2.0:
   resolved "https://registry.yarnpkg.com/graphql-compose-connection/-/graphql-compose-connection-6.2.1.tgz#ea841c8a0af740c9d517e75e6fc44a121f3eeb4c"
   integrity sha512-PmNpDg9dRC14sKJkEaepqCxaNvw5tpcbcO1xLuoCkJR+B9vasYPfvsuueN/R2s6dIDjJnvtcuf+ce25ZzgRSRw==
 
-graphql-compose-mongoose@^7.3.4:
+graphql-compose-mongoose@^7.5.0:
   version "7.5.0"
   resolved "https://registry.yarnpkg.com/graphql-compose-mongoose/-/graphql-compose-mongoose-7.5.0.tgz#3479e2cf0989ae31534b8455be8f401f596b6b7a"
   integrity sha512-b3QIX5+2zqXeS/HG9QevKhvYuN8w9P2KZ+v9AmO+GhChYsZvh2fVdSqEtZY5rzJZFIVb3xCJUTiXONWLhB0Njw==
@@ -804,7 +804,7 @@ graphql-compose-pagination@6.1.0:
   resolved "https://registry.yarnpkg.com/graphql-compose-pagination/-/graphql-compose-pagination-6.1.0.tgz#326ad05623c9be6d59dd8f075407b2c544906195"
   integrity sha512-f6KBbOeMB/FMOCbrgG5YjWm7PMvBPcd6IDMitiep3Um17juyyn7pl6nmhNgn+vePnLYOtYjoNtkr0WnoOio5Jg==
 
-graphql-compose@^7.14.0:
+graphql-compose@^7.23.0:
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/graphql-compose/-/graphql-compose-7.23.0.tgz#df377fed9758cb42ffe310c4437ec443b4c2dc7f"
   integrity sha512-OZxrc3FQoFumf2cG1IiBraIAPbiYjdLZFyNADAZ26n7betm9t7wu4LcgGJ7DhvsGQ7NAtBc5QgM2CQ2uhP0KLg==
@@ -859,7 +859,7 @@ graphql-upload@^8.0.2:
     http-errors "^1.7.3"
     object-path "^0.11.4"
 
-graphql@^14.6.0:
+graphql@^14.7.0:
   version "14.7.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.7.0.tgz#7fa79a80a69be4a31c27dda824dc04dac2035a72"
   integrity sha512-l0xWZpoPKpppFzMfvVyFmp9vLN7w/ZZJPefUicMCepfJeQ8sMcztloGYY9DfjVPo6tIUDzU5Hw3MUbIjj9AVVA==
@@ -1028,7 +1028,7 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose@^5.9.5:
+mongoose@^5.11.6:
   version "5.11.6"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.11.6.tgz#906aa8bddddcafbd02b9c1a46600d7c0d19a0830"
   integrity sha512-sLM8gwgC6h/mM4kPsmQOBleKFwy/iY+h8nnqZgoI+MaqGNqidpLIM8yKjiWw8H10FuDf9Hq14biVKxMT4WgnXA==
