@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server-fastify');
 const fastify = require('fastify')({ logger: true })
-const {isConnected, NotesCollection} = require('../server/src/db')
+const {isConnected, ProductsCollection, CategoriesCollection} = require('../server/src/db')
 const graphqlSchema = require('../server/src/graphql')
 
 // Declare a route
@@ -10,17 +10,21 @@ fastify.get('/', async (request, reply) => {
 
 // fastify.post('/products', async (request, reply) => {
 //     const { name } = request.body;
-//     const newCollection = new NotesCollection({name})
+//     const newCollection = new ProductsCollection({name})
 //     await newCollection.save()
 
 //     return newCollection.toObject()
 // })
 
 fastify.get('/products', async (request, reply) => {
-    const products = NotesCollection.find().lean()
+    const products = ProductsCollection.find().lean()
     return products
 })
-  
+
+fastify.get('/categories', async (request, reply) => {
+    const categories = CategoriesCollection.find().lean()
+    return categories
+})
 
 // Run the server!
 const start = async () => {

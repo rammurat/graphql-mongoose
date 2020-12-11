@@ -1,60 +1,58 @@
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const { schemaComposer } = require('graphql-compose');
-const { Notes, NotesCollection } = require('../db');
+const { CategoriesCollection, ProductsCollection } = require('../db');
 
 // CONVERT MONGOOSE MODEL TO GraphQL PIECES
-const customizationOptions = {}; // left it empty for simplicity, described below
-const NotesCollectionTC = composeWithMongoose(
-  NotesCollection,
-  customizationOptions
-);
+const options = {};
+const ProductsCollectionTC = composeWithMongoose(ProductsCollection,options);
+const CategoriesTC = composeWithMongoose(CategoriesCollection, options);
 
 // Add needed CRUD Notes Collection operations to the GraphQL Schema
 // via graphql-compose it will be much much easier, with less typing
+
+// Products collection resolver 
 schemaComposer.Query.addFields({
-  collectionById: NotesCollectionTC.getResolver('findById'),
-  collectionByIds: NotesCollectionTC.getResolver('findByIds'),
-  collection: NotesCollectionTC.getResolver('findOne'),
-  products: NotesCollectionTC.getResolver('findMany'),
-  collectionCount: NotesCollectionTC.getResolver('count'),
-  collectionConnection: NotesCollectionTC.getResolver('connection'),
-  collectionPagination: NotesCollectionTC.getResolver('pagination')
+  productsById: ProductsCollectionTC.getResolver('findById'),
+  productsByIds: ProductsCollectionTC.getResolver('findByIds'),
+  product: ProductsCollectionTC.getResolver('findOne'),
+  products: ProductsCollectionTC.getResolver('findMany'),
+  productsCount: ProductsCollectionTC.getResolver('count'),
+  productsConnection: ProductsCollectionTC.getResolver('connection'),
+  productsPagination: ProductsCollectionTC.getResolver('pagination')
 });
 schemaComposer.Mutation.addFields({
-  collectionCreateOne: NotesCollectionTC.getResolver('createOne'),
-  collectionUpdateById: NotesCollectionTC.getResolver('updateById'),
-  collectionRemoveById: NotesCollectionTC.getResolver('removeById')
+  productCreateOne: ProductsCollectionTC.getResolver('createOne'),
+  productUpdateById: ProductsCollectionTC.getResolver('updateById'),
+  productRemoveById: ProductsCollectionTC.getResolver('removeById')
 });
 
-// same setup for notes
-const NotesTC = composeWithMongoose(Notes, customizationOptions);
+// Categories collection resolver
 schemaComposer.Query.addFields({
-  noteById: NotesTC.getResolver('findById'),
-  noteByIds: NotesTC.getResolver('findByIds'),
-  note: NotesTC.getResolver('findOne'),
-  notes: NotesTC.getResolver('findMany'),
-  noteCount: NotesTC.getResolver('count'),
-  noteConnection: NotesTC.getResolver('connection'),
-  notePagination: NotesTC.getResolver('pagination')
+  categoriesById: CategoriesTC.getResolver('findById'),
+  categoriesByIds: CategoriesTC.getResolver('findByIds'),
+  category: CategoriesTC.getResolver('findOne'),
+  categories: CategoriesTC.getResolver('findMany'),
+  categoriesCount: CategoriesTC.getResolver('count'),
+  categoriesConnection: CategoriesTC.getResolver('connection')
 });
 schemaComposer.Mutation.addFields({
-  noteCreateOne: NotesTC.getResolver('createOne'),
-  noteUpdateById: NotesTC.getResolver('updateById'),
-  noteRemoveById: NotesTC.getResolver('removeById')
+  categoriesCreateOne: CategoriesTC.getResolver('createOne'),
+  categoriesUpdateById: CategoriesTC.getResolver('updateById'),
+  categoriesRemoveById: CategoriesTC.getResolver('removeById')
 });
 
-// define relation between notes and products
-NotesTC.addRelation('collection', {
-  resolver: () => NotesCollectionTC.getResolver('findById'),
+// define relation between categoriess and products
+CategoriesTC.addRelation('product', {
+  resolver: () => ProductsCollectionTC.getResolver('findById'),
   prepareArgs: {
     _id: source => source.group
   },
   projection: { group: 1 }
 });
 
-// define relation between collection and notes
-NotesCollectionTC.addRelation('notes', {
-  resolver: () => NotesTC.getResolver('findMany'),
+// define relation between products and categoriess
+ProductsCollectionTC.addRelation('categoriess', {
+  resolver: () => CategoriesTC.getResolver('findMany'),
   prepareArgs: {
     group: source => source._id
   },
