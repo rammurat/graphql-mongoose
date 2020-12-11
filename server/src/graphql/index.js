@@ -15,7 +15,7 @@ schemaComposer.Query.addFields({
   collectionById: NotesCollectionTC.getResolver('findById'),
   collectionByIds: NotesCollectionTC.getResolver('findByIds'),
   collection: NotesCollectionTC.getResolver('findOne'),
-  collections: NotesCollectionTC.getResolver('findMany'),
+  products: NotesCollectionTC.getResolver('findMany'),
   collectionCount: NotesCollectionTC.getResolver('count'),
   collectionConnection: NotesCollectionTC.getResolver('connection'),
   collectionPagination: NotesCollectionTC.getResolver('pagination')
@@ -43,7 +43,7 @@ schemaComposer.Mutation.addFields({
   noteRemoveById: NotesTC.getResolver('removeById')
 });
 
-// define relation between notes and collections
+// define relation between notes and products
 NotesTC.addRelation('collection', {
   resolver: () => NotesCollectionTC.getResolver('findById'),
   prepareArgs: {
@@ -51,6 +51,7 @@ NotesTC.addRelation('collection', {
   },
   projection: { group: 1 }
 });
+
 // define relation between collection and notes
 NotesCollectionTC.addRelation('notes', {
   resolver: () => NotesTC.getResolver('findMany'),

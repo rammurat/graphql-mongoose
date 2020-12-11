@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/graphql', {
+mongoose.connect('mongodb://localhost/debenhams', {
     useNewUrlParser: true, 
     useUnifiedTopology: true
 });
@@ -14,7 +14,7 @@ const notesCollectionSchema = new mongoose.Schema({
 });
 
 const NotesCollection = mongoose.model(
-    'notescollections',
+    'products',
     notesCollectionSchema
 );
 
@@ -22,11 +22,10 @@ const NotesCollection = mongoose.model(
 const notesSchema = new mongoose.Schema({
     name: String,
     body: String,
-    group: { type: mongoose.Schema.Types.ObjectId, ref: 'notescollections' }
+    group: { type: mongoose.Schema.Types.ObjectId, ref: 'products' }
 });
 
 const Notes = mongoose.model('notes', notesSchema);
-
 
 exports.isConnected = new Promise(resolve => db.once('open', resolve))
 exports.NotesCollection = NotesCollection
