@@ -10,13 +10,22 @@ db.on('eroor', console.error.bind(console, 'connection error'))
 
 // Schemas
 const ProductsSchema = new mongoose.Schema({
-    name: String
+    name: String,
+    price: String,
+    description: String,
+    sizes: Array,
+    tags: Array,
+    related_products: Array,
+    delivery_options: Array,
+    images: Object,
+    cat_id: Number,
+    sub_cat_id: Number,
+    sub_cat_name: String
 });
 
 const CategoriesSchema = new mongoose.Schema({
     name: String,
-    body: String,
-    group: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' }
+    sub_categories: Array
 });
 
 // Models

@@ -1,63 +1,51 @@
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const { schemaComposer } = require('graphql-compose');
 const { CategoriesCollection, ProductsCollection } = require('../db');
+const mongoose = require('mongoose');
+
+const addToSchema = (collection, TC) => {
+  let query = {} 
+  query[`${collection}ById`] = TC.getResolver('findById')
+  query[`${collection}ByIds`] = TC.getResolver('findByIds')
+  query[`${collection}One`] = TC.getResolver('findOne')
+  query[`${collection}Many`] = TC.getResolver('findMany')
+  query[`${collection}Count`] = TC.getResolver('count')
+  schemaComposer.Query.addFields(query)
+
+  let mutation = {}
+  mutation[`${collection}CreateOne`] = TC.getResolver('createOne')
+  mutation[`${collection}UpdateById`] = TC.getResolver('updateById')
+  mutation[`${collection}RemoveById`] = TC.getResolver('removeById')
+  schemaComposer.Mutation.addFields(mutation)
+}
+
 
 // CONVERT MONGOOSE MODEL TO GraphQL PIECES
-const options = {};
-const ProductsCollectionTC = composeWithMongoose(ProductsCollection,options);
-const CategoriesTC = composeWithMongoose(CategoriesCollection, options);
+addToSchema('products', composeWithMongoose(ProductsCollection, {}))
+addToSchema('categories', composeWithMongoose(CategoriesCollection, {}))
 
-// Add needed CRUD Notes Collection operations to the GraphQL Schema
-// via graphql-compose it will be much much easier, with less typing
+// Example:- Loop though if you want
+// for(const name of mongoose.modelNames()) {
+//   addToSchema(name, composeWithMongoose(mongoose.model(name), {}))
+// }
 
-// Products collection resolver 
-schemaComposer.Query.addFields({
-  productsById: ProductsCollectionTC.getResolver('findById'),
-  productsByIds: ProductsCollectionTC.getResolver('findByIds'),
-  product: ProductsCollectionTC.getResolver('findOne'),
-  products: ProductsCollectionTC.getResolver('findMany'),
-  productsCount: ProductsCollectionTC.getResolver('count'),
-  productsConnection: ProductsCollectionTC.getResolver('connection'),
-  productsPagination: ProductsCollectionTC.getResolver('pagination')
-});
-schemaComposer.Mutation.addFields({
-  productCreateOne: ProductsCollectionTC.getResolver('createOne'),
-  productUpdateById: ProductsCollectionTC.getResolver('updateById'),
-  productRemoveById: ProductsCollectionTC.getResolver('removeById')
-});
+// define relation between categories and products
+// CategoriesTC.addRelation('products', {
+//   resolver: () => ProductsCollectionTC.getResolver('findById'),
+//   prepareArgs: {
+//     _id: source => source.group
+//   },
+//   projection: { group: 1 }
+// });
 
-// Categories collection resolver
-schemaComposer.Query.addFields({
-  categoriesById: CategoriesTC.getResolver('findById'),
-  categoriesByIds: CategoriesTC.getResolver('findByIds'),
-  category: CategoriesTC.getResolver('findOne'),
-  categories: CategoriesTC.getResolver('findMany'),
-  categoriesCount: CategoriesTC.getResolver('count'),
-  categoriesConnection: CategoriesTC.getResolver('connection')
-});
-schemaComposer.Mutation.addFields({
-  categoriesCreateOne: CategoriesTC.getResolver('createOne'),
-  categoriesUpdateById: CategoriesTC.getResolver('updateById'),
-  categoriesRemoveById: CategoriesTC.getResolver('removeById')
-});
-
-// define relation between categoriess and products
-CategoriesTC.addRelation('product', {
-  resolver: () => ProductsCollectionTC.getResolver('findById'),
-  prepareArgs: {
-    _id: source => source.group
-  },
-  projection: { group: 1 }
-});
-
-// define relation between products and categoriess
-ProductsCollectionTC.addRelation('categoriess', {
-  resolver: () => CategoriesTC.getResolver('findMany'),
-  prepareArgs: {
-    group: source => source._id
-  },
-  projection: { _id: 1 }
-});
+// // define relation between products and 
+// ProductsCollectionTC.addRelation('categories', {
+//   resolver: () => CategoriesTC.getResolver('findMany'),
+//   prepareArgs: {
+//     group: source => source._id
+//   },
+//   projection: { _id: 1 }
+// });
 
 const graphqlSchema = schemaComposer.buildSchema();
 module.exports = graphqlSchema;
