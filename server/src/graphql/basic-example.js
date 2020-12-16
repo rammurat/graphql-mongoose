@@ -41,23 +41,5 @@ schemaComposer.Mutation.addFields({
   categoriesRemoveById: CategoriesTC.getResolver('removeById')
 });
 
-// define relation between categoriess and products
-CategoriesTC.addRelation('product', {
-  resolver: () => ProductsCollectionTC.getResolver('findById'),
-  prepareArgs: {
-    _id: source => source.group
-  },
-  projection: { group: 1 }
-});
-
-// define relation between products and categoriess
-ProductsCollectionTC.addRelation('categoriess', {
-  resolver: () => CategoriesTC.getResolver('findMany'),
-  prepareArgs: {
-    group: source => source._id
-  },
-  projection: { _id: 1 }
-});
-
 const graphqlSchema = schemaComposer.buildSchema();
 module.exports = graphqlSchema;

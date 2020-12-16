@@ -20,12 +20,14 @@ const ProductsSchema = new mongoose.Schema({
     images: Object,
     cat_id: Number,
     sub_cat_id: Number,
-    sub_cat_name: String
+    sub_cat_name: String,
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' }
 });
 
 const CategoriesSchema = new mongoose.Schema({
     name: String,
-    sub_categories: Array
+    sub_categories: Array,
+    products: [ProductsSchema]
 });
 
 // Models
